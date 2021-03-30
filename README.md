@@ -31,3 +31,20 @@
 
   14. There is no tolerance for Book compilation failures. The system must be fault tolerant, and highly instrumented.
 
+
+## Initial Ideations
+
+1. The Devil wears Prada (as om wait for the book)
+2. Portfolio PDF's
+3. https://www.pdftron.com/ meets many requirements
+4. Object Definitions (members, books)
+5. Logging, Log Aggrigation,
+6. Kafka (as esb)
+7. containers to compile books using messaging
+8. need more details on security (is redact an ok strategy)
+9. Is the document secure or it on download
+10. Data Retention Policies
+11. Inbound transports, email, text, social media(snap insta)
+12. Deliver mechanisms (burst mode)
+13. resilency
+    
