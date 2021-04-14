@@ -4,6 +4,11 @@
 ARG VARIANT="14-buster"
 FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
 
+ENV TZ=America/New_York
+
+RUN cp /usr/share/zoneinfo/US/Eastern /etc/localtime && \
+    echo "America/New_York" > /etc/timezone 
+
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
