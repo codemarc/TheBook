@@ -1,18 +1,7 @@
-
-// const main = async () => {
-//     const doc = await PDFNet.PDFDoc.create()
-//     const page = await doc.pageCreate()
-//     doc.pagePushBack(page)
-//     doc.save('blank.pdf',PDFNet.SDFDoc.SaveOptions.e_linearized)
-// }
-
-// PDFNet.runWithCleanup(main).catch((err) => {
-//     console.log(err)
-// }).then(() => {
-//     PDFNet.shutdown()
-// })
-
 const { PDFNet } = require('@pdftron/pdfnet-node')
+const localizedFormat = require('dayjs/plugin/localizedFormat')
+const  dayjs = require('dayjs')
+dayjs.extend(localizedFormat)
 
 // Relative path to the folder containing test files.
 const input_path = "test/in/";
@@ -42,14 +31,22 @@ const addPackage = async (doc, file, desc) => {
 
       const b = await PDFNet.ElementBuilder.create();
       const w = await PDFNet.ElementWriter.create();
+      
       w.beginOnPage(page);
       const font = await PDFNet.Font.create(doc, PDFNet.Font.StandardType1Font.e_helvetica);
-      w.writeElement(await b.createTextBeginWithFont(font, 12));
-      const e = await b.createNewTextRun("My PDF Collection");
-      e.setTextMatrixEntries(1, 0, 0, 1, 50, 96);
-      const gstate = await e.getGState();
+      w.writeElement(await b.createTextBeginWithFont(font, 8));
+      let e = await b.createNewTextRun(`Prepared on ${dayjs().format('LLLL')}`);
+      e.setTextMatrixEntries(1, 0, 0, 1, 10, 96);
+      let gstate = await e.getGState();
       gstate.setFillColorSpace(await PDFNet.ColorSpace.createDeviceRGB());
       gstate.setFillColorWithColorPt(await PDFNet.ColorPt.init(1, 0, 0));
+      w.writeElement(e);
+
+      e = await b.createNewTextRun(`Packaged by CodeMarc`);
+      e.setTextMatrixEntries(1, 0, 0, 1, 50, 82);
+      gstate = await e.getGState();
+      gstate.setFillColorSpace(await PDFNet.ColorSpace.createDeviceRGB());
+      gstate.setFillColorWithColorPt(await PDFNet.ColorPt.init(0, 0, 0));
       w.writeElement(e);
       w.writeElement(await b.createTextEnd());
       w.end();
@@ -64,9 +61,9 @@ const addPackage = async (doc, file, desc) => {
       // Create a PDF Package.
       try {
         const doc = await PDFNet.PDFDoc.create();
-        await addPackage(doc, input_path + "numbered.pdf", "My File 1");
-        await addPackage(doc, input_path + "newsletter.pdf", "My Newsletter...");
-        await addPackage(doc, input_path + "peppers.jpg", "An image");
+        await addPackage(doc, input_path + "Board-Management-Software-Buyers-Guide.pdf", "1");
+        await addPackage(doc, input_path + "Annotation-Sync-FAFA.jpeg", "2");
+        await addPackage(doc, input_path + "Final-Build-a-board-book.mp4", "3");
         await addCoverPage(doc);
         await doc.save(output_path + "package.pdf", PDFNet.SDFDoc.SaveOptions.e_linearized);
         console.log("Done.");

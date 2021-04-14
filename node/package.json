@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@pdftron/pdfnet-node": "^9.0.0"
+    "@pdftron/pdfnet-node": "^9.0.0",
+    "dayjs": "^1.10.4"
   }
 }
